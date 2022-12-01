@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -6,13 +7,16 @@ import {
   Param,
   Patch,
   Post,
+  Res,
 } from '@nestjs/common';
 import { IUserEntity } from './entities/user.entity';
 import { PartialUserDto } from './services/dto/partialUserImport.dto';
 import { UserDto } from './services/dto/userinput.dto';
 import { UserService } from './services/user.service';
+import { IHttpResponse } from 'src/utils/httpResponse';
+import { Response } from 'express';
 
-@Controller()
+@Controller('user')
 export class UserController {
   constructor(private readonly service: UserService) {}
   @Get()
@@ -32,17 +36,20 @@ export class UserController {
   @Post()
   async createUser(
     @Body() { name, email, password, cpf, role }: UserDto,
-  ): Promise<IUserEntity> {
+    @Res() response: Response,
+  ) {
     try {
-      return await this.service.createUser({
+      const result = await this.service.createUser({
         name,
         email,
         password,
         cpf,
         role,
       });
+      response.status(201).send(result);
     } catch (err) {
       console.log(err);
+      throw new BadRequestException(err.message);
     }
   }
 
@@ -57,6 +64,7 @@ export class UserController {
   @Delete(':id')
   async deleteUserById(@Param('id') userId: string): Promise<string> {
     const userIsDeleted = await this.service.deleteUserById(userId);
+    console.log(userIsDeleted);
     if (userIsDeleted) {
       return 'User deleted successfully';
     } else {

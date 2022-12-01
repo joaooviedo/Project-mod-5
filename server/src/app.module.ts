@@ -3,6 +3,7 @@ import { DatabaseModule } from './prisma/database.module';
 import { UserService } from './user/services/user.service';
 import { UserController } from './user/user.controller';
 import { UserRepository } from './user/user.repository';
+import { PrismaService } from './prisma/prisma.service';
 
 @Module({
     imports: [DatabaseModule],
