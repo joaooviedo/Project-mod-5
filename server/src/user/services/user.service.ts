@@ -23,4 +23,23 @@ export class UserService {
   async getAllUsers(): Promise<IUserEntity[]> {
     return this.users;
   }
+  async deleteUserById(userId: string): Promise<boolean> {
+    const existUser = this.users.find((user) => user.id === userId);
+    if (!existUser) {
+      return false;
+    }
+    this.users.map((user, index) => {
+      if (user.id === userId) {
+        this.users.splice(index, 1);
+      }
+    });
+    return true;
+  }
+  async getUserById(userId: string): Promise<IUserEntity> {
+    const existUser = this.users.find((user) => user.id === userId);
+    if (!existUser) {
+      throw new Error('User not found');
+    }
+    return existUser;
+  }
 }
