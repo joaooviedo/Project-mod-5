@@ -15,6 +15,8 @@ import { UserDto } from './services/dto/userinput.dto';
 import { UserService } from './services/user.service';
 import { IHttpResponse } from 'src/utils/httpResponse';
 import { Response } from 'express';
+import { HandleException } from 'src/utils/exceptions/exceptionsHelper';
+import { Exception } from 'src/utils/exceptions/IException';
 
 @Controller('user')
 export class UserController {
@@ -48,8 +50,7 @@ export class UserController {
       });
       response.status(201).send(result);
     } catch (err) {
-      console.log(err);
-      throw new BadRequestException(err.message);
+      HandleException(err)
     }
   }
 
@@ -61,6 +62,7 @@ export class UserController {
       console.log(err);
     }
   }
+  
   @Delete(':id')
   async deleteUserById(@Param('id') userId: string): Promise<string> {
     const userIsDeleted = await this.service.deleteUserById(userId);
