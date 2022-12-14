@@ -15,8 +15,9 @@ import { UserDto } from './services/dto/userinput.dto';
 import { UserService } from './services/user.service';
 import { IHttpResponse } from 'src/utils/httpResponse';
 import { Response } from 'express';
-import { HandleException } from 'src/utils/exceptions/exceptionsHelper';
 import { Exception } from 'src/utils/exceptions/IException';
+import { HandleException } from 'src/utils/exceptions/exceptionsHelper';
+
 
 @Controller('user')
 export class UserController {
@@ -31,7 +32,7 @@ export class UserController {
     try {
       return await this.service.getUserById(userId);
     } catch (err) {
-      console.log(err);
+      HandleException(err);
     }
   }
 
@@ -59,7 +60,7 @@ export class UserController {
     try {
       return await this.service.updateUser(userData);
     } catch (err) {
-      console.log(err);
+      HandleException(err);
     }
   }
   
