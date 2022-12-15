@@ -30,12 +30,12 @@ export class ClockInListRepository {
       include: { workers: true },
     });
   }
-  async clockInListById(id:string):Promise<ClockInList>{
+  async clockInListById(id: string): Promise<ClockInList> {
     return await this.prismaService.clockInList.findUniqueOrThrow({
-      where:{id:id},
-      include:{ 
-        workers: true
-       },
-    })
+      where: { id: id },
+      include: {
+        workers: true,
+      },
+    });
   }
 }

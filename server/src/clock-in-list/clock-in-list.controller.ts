@@ -45,17 +45,4 @@ export class ClockInListController {
   findOne(@Param('id') id: string) {
     return this.clockInListService.findOne(id);
   }
-
-  @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateClockInListDto: UpdateClockInListDto,
-  ) {
-    return this.clockInListService.update(+id, updateClockInListDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.clockInListService.remove(+id);
-  }
 }
