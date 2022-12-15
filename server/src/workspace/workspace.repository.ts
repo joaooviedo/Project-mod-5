@@ -1,9 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { Worker } from 'cluster';
-import { eventNames } from 'process';
-import { identity } from 'rxjs';
-import { CreateClockInListDto } from 'src/clock-in-list/dto/create-clock-in-list.dto';
-import { UpdateClockInListDto } from 'src/clock-in-list/dto/update-clock-in-list.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { Exception } from 'src/utils/exceptions/exception';
 import { Exceptions } from 'src/utils/exceptions/exceptionsHelper';
@@ -70,7 +65,7 @@ export class WorkspaceRepository {
 
   async deleteWorkspace(id: string): Promise<Workspace> {
     try {
-      return await this.prismaService.workspace.findUnique({
+      return await this.prismaService.workspace.delete({
         where: { id: id },
         include: this.dataToReturn,
       });
