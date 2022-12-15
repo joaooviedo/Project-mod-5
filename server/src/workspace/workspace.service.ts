@@ -1,50 +1,44 @@
 import { Injectable } from '@nestjs/common';
 import { randomUUID } from 'crypto';
+import { Exception } from 'src/utils/exceptions/exception';
+import { Exceptions } from 'src/utils/exceptions/exceptionsHelper';
 import { CreateWorkspaceDto } from './dto/create-workspace.dto';
 import { UpdateWorkspaceDto } from './dto/update-workspace.dto';
 import { Workspace } from './entities/workspace.entity';
+import { WorkspaceRepository } from './workspace.repository';
 
 @Injectable()
 export class WorkspaceService {
-  private _workspaceList: Workspace[] = [];
+  constructor(private readonly workspaceRepository: WorkspaceRepository) {}
+
   async create(createWorkspaceDto: CreateWorkspaceDto): Promise<Workspace> {
-    const createdWorkspace: Workspace = {
-      ...createWorkspaceDto,
-      id: randomUUID(),
-      workers: [],
-      supervisor: [],
-      clockinTime: [],
-    };
-    this._workspaceList.push(createdWorkspace);
-    return createdWorkspace;
+    const id = randomUUID();
+    return await this.workspaceRepository.createWorkspace(
+      createWorkspaceDto,
+      id,
+    );
   }
 
   async findAll(): Promise<Workspace[]> {
-    return this._workspaceList;
+    return await this.workspaceRepository.findAllWorkspace();
   }
 
   async findOne(id: string): Promise<Workspace> {
-    return this._workspaceList.find((workspace) => workspace.id === id);
+    return this.workspaceRepository.findWorkspaceByid(id);
   }
 
-  async update(
-    id: string,
-    updateWorkspaceDto: UpdateWorkspaceDto,
-  ): Promise<Workspace> {
-    this._workspaceList.map((workspace, index) => {
-      const updatedWorkspace = Object.assign(workspace, updateWorkspaceDto);
-      this._workspaceList.splice(index, 1, updatedWorkspace);
-    });
-    return await this.findOne(id);
+  async update(updateWorkspaceDto: UpdateWorkspaceDto,): Promise<Workspace> {
+    if (!updateWorkspaceDto.workersIds && !updateWorkspaceDto.supervisorIds){
+      throw new Exception(
+        Exceptions.InvalidData,
+        'not send reference to connection',
+      );
+    }
+    return await this.workspaceRepository.updateWorkspace(updateWorkspaceDto);
   }
 
   async remove(id: string): Promise<String> {
-    this._workspaceList.map((workspace, index) => {
-      if (workspace.id === id) {
-        this._workspaceList.splice(index, 1);
-      }
-    });
-
-    return Promise.resolve('Workspace deleted succesfully');
+    await this.workspaceRepository.deleteWorkspace(id)
+    return'Workspace deleted succesfully';
   }
 }

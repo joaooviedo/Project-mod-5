@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { randomUUID } from 'crypto';
+import { UserService } from 'src/user/services/user.service';
 import { WorkspaceService } from 'src/workspace/workspace.service';
 import { ClockInListRepository } from './clock-in-list.repository';
 import { CreateClockInListDto } from './dto/create-clock-in-list.dto';
@@ -8,10 +9,9 @@ import { ClockInList } from './entities/clock-in-list.entity';
 
 @Injectable()
 export class ClockInListService {
-  private _clockInList: ClockInList[] = [];
-
   constructor(
     private readonly workspaceService: WorkspaceService,
+    private readonly userService: UserService,
     private readonly clockInListRepository: ClockInListRepository,
   ) {}
 

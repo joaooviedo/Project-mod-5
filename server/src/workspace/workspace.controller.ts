@@ -10,36 +10,54 @@ import {
 import { WorkspaceService } from './workspace.service';
 import { CreateWorkspaceDto } from './dto/create-workspace.dto';
 import { UpdateWorkspaceDto } from './dto/update-workspace.dto';
+import { HandleException } from 'src/utils/exceptions/exceptionsHelper';
 
 @Controller('workspace')
 export class WorkspaceController {
   constructor(private readonly workspaceService: WorkspaceService) {}
 
   @Post()
-  create(@Body() createWorkspaceDto: CreateWorkspaceDto) {
-    return this.workspaceService.create(createWorkspaceDto);
+  async create(@Body() createWorkspaceDto: CreateWorkspaceDto) {
+    try {
+      return this.workspaceService.create(createWorkspaceDto);
+    } catch (err) {
+      HandleException(err);
+    }
   }
 
   @Get()
-  findAll() {
-    return this.workspaceService.findAll();
+  async findAll() {
+    try {
+      return this.workspaceService.findAll();
+    } catch (err) {
+      HandleException(err);
+    }
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.workspaceService.findOne(id);
+  async findOne(@Param('id') id: string) {
+    try {
+      return this.workspaceService.findOne(id);
+    } catch (err) {
+      HandleException(err);
+    }
   }
 
-  @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateWorkspaceDto: UpdateWorkspaceDto,
-  ) {
-    return this.workspaceService.update(id, updateWorkspaceDto);
+  @Patch()
+  async update(@Body() updateWorkspaceDto:UpdateWorkspaceDto) {
+    try {
+      return this.workspaceService.update(updateWorkspaceDto);
+    } catch (err) {
+      HandleException(err);
+    }
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.workspaceService.remove(id);
+  async remove(@Param('id') id: string) {
+    try {
+      return this.workspaceService.remove(id);
+    } catch (err) {
+      HandleException(err);
+    }
   }
 }

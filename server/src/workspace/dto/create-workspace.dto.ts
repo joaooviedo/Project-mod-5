@@ -11,4 +11,8 @@ export class CreateWorkspaceDto {
   @ApiProperty()
   @IsString()
   epi: string;
+  @ApiProperty()
+  workersIds?:string[]
+  @ApiProperty()
+  supervisorIds?:string[]
 }
