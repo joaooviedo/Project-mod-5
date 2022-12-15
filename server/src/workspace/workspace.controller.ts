@@ -35,11 +35,11 @@ export class WorkspaceController {
     @Param('id') id: string,
     @Body() updateWorkspaceDto: UpdateWorkspaceDto,
   ) {
-    return this.workspaceService.update(+id, updateWorkspaceDto);
+    return this.workspaceService.update(id, updateWorkspaceDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.workspaceService.remove(+id);
+    return this.workspaceService.remove(id);
   }
 }

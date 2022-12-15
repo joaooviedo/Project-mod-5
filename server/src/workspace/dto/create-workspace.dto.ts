@@ -1,11 +1,14 @@
-import { ClockInList } from 'src/clock-in-list/entities/clock-in-list.entity';
-import { IUserEntity } from 'src/user/entities/user.entity';
+import { ApiProperty } from '@nestjs/swagger';
+import { IsString } from 'class-validator';
 
 export class CreateWorkspaceDto {
+  @ApiProperty()
+  @IsString()
   name: string;
+  @ApiProperty()
+  @IsString()
   function: string;
+  @ApiProperty()
+  @IsString()
   epi: string;
-  workers: IUserEntity[];
-  supervisor: IUserEntity[];
-  clockinTime: ClockInList[];
 }
