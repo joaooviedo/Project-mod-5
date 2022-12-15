@@ -1,7 +1,15 @@
-import {  INestApplication, OnModuleDestroy, OnModuleInit,} from '@nestjs/common';
+import {
+  INestApplication,
+  OnModuleDestroy,
+  OnModuleInit,
+} from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 
-export class PrismaService extends PrismaClient implements OnModuleInit, OnModuleDestroy {
+export class PrismaService
+  extends PrismaClient
+  implements OnModuleInit, OnModuleDestroy
+{
+  clockInList: any;
   async onModuleDestroy() {
     await this.$disconnect();
   }

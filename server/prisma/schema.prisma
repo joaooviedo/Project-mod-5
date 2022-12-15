@@ -8,12 +8,36 @@ datasource db {
 }
 
 model User {
-  id        String   @id @unique
-  name      String
-  email     String   @unique
-  password  String
-  cpf       String   @unique
-  role      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id                    String        @id @unique
+  name                  String
+  email                 String        @unique
+  password              String
+  cpf                   String        @unique
+  role                  String
+  createdAt             DateTime      @default(now())
+  updatedAt             DateTime      @updatedAt
+  clockInLists          ClockInList[]
+  WorkspaceWorker       Workspace     @relation(fields: [workspaceWorkerId], references: [id], name: "workspace workers")
+  workspaceWorkerId     String
+  WorkspaceSupervisor   Workspace     @relation(fields: [workspaceSupervisorId], references: [id])
+  workspaceSupervisorId String
+}
+
+model ClockInList {
+  id          String    @id @unique
+  workspaceId String
+  Workspace   Workspace @relation(fields: [workspaceId], references: [id])
+  time        DateTime
+  workers     User[]
+  day         String
+}
+
+model Workspace {
+  id          String        @id @unique
+  name        String
+  function    String
+  epi         String
+  clockinTime ClockInList[]
+  workers     User[]        @relation(name: "workspace workers")
+  supervisor  User[]
 }
