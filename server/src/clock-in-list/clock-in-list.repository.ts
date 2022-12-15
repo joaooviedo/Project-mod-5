@@ -25,4 +25,17 @@ export class ClockInListRepository {
       },
     });
   }
+  async allClockInLists(): Promise<ClockInList[]> {
+    return await this.prismaService.clockInList.findMany({
+      include: { workers: true },
+    });
+  }
+  async clockInListById(id:string):Promise<ClockInList>{
+    return await this.prismaService.clockInList.findUniqueOrThrow({
+      where:{id:id},
+      include:{ 
+        workers: true
+       },
+    })
+  }
 }
