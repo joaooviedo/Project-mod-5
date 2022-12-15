@@ -17,10 +17,10 @@ model User {
   createdAt             DateTime      @default(now())
   updatedAt             DateTime      @updatedAt
   clockInLists          ClockInList[]
-  WorkspaceWorker       Workspace     @relation(fields: [workspaceWorkerId], references: [id], name: "workspace workers")
-  workspaceWorkerId     String
-  WorkspaceSupervisor   Workspace     @relation(fields: [workspaceSupervisorId], references: [id])
-  workspaceSupervisorId String
+  WorkspaceWorker       Workspace?    @relation(fields: [workspaceWorkerId], references: [id], name: "workspace workers")
+  workspaceWorkerId     String?
+  WorkspaceSupervisor   Workspace?    @relation(fields: [workspaceSupervisorId], references: [id])
+  workspaceSupervisorId String?
 }
 
 model ClockInList {
