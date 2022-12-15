@@ -35,7 +35,7 @@ model ClockInList {
 model Workspace {
   id          String        @id @unique
   name        String
-  function    String
+  activities    String
   epi         String
   clockinTime ClockInList[]
   workers     User[]        @relation(name: "workspace workers")

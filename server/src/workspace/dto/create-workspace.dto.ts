@@ -7,7 +7,7 @@ export class CreateWorkspaceDto {
   name: string;
   @ApiProperty()
   @IsString()
-  function: string;
+  activities: string;
   @ApiProperty()
   @IsString()
   epi: string;
