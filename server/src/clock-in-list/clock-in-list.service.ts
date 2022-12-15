@@ -33,12 +33,24 @@ export class ClockInListService {
     return `This action returns all clockInList`;
   }
 
-  async findOne(id: number) {
-    return `This action returns a #${id} clockInList`;
+  async findOne(id: string): Promise<ClockInList> {
+    const findedClockInList = this._clockInList.find(
+      (clockInList) => clockInList.id === id,
+    );
+    return findedClockInList;
   }
 
   async update(id: number, updateClockInListDto: UpdateClockInListDto) {
     return `This action updates a #${id} clockInList`;
+  }
+
+  async RegisterOnClockInList(
+    clockInListId: string,
+    userId: string,
+  ): Promise<String> {
+    const FindedClockInList = await this.findOne(clockInListId);
+    const ActualDate = new Date(Date.now());
+    return 'Clock In realized';
   }
 
   async remove(id: number) {
